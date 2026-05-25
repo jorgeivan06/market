@@ -1,0 +1,28 @@
+# Dependency directories
+node_modules/
+.next/
+dist/
+build/
+
+# Databases
+*.db
+*.db-journal
+
+# Environments
+.env
+.env.local
+.env.*.local
+
+# IDEs and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# NestJS specific
+/backend/dist
+/backend/node_modules
+
+# NextJS specific
+/frontend/.next
+/frontend/node_modules
