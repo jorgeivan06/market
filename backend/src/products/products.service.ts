@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 
@@ -28,8 +28,23 @@ export class ProductsService {
     return this.findOne(product.id);
   }
 
-  findAll() {
+  async findAll(query: { search?: string; category?: string; minPrice?: number; maxPrice?: number }) {
+    const { search, category, minPrice, maxPrice } = query;
+
     return this.prisma.product.findMany({
+      where: {
+        AND: [
+          search ? {
+            OR: [
+              { name: { contains: search } },
+              { description: { contains: search } },
+            ]
+          } : {},
+          category ? { category } : {},
+          minPrice ? { price: { gte: Number(minPrice) } } : {},
+          maxPrice ? { price: { lte: Number(maxPrice) } } : {},
+        ]
+      },
       include: {
         images: true,
         user: {
@@ -40,6 +55,7 @@ export class ProductsService {
           },
         },
       },
+      orderBy: { createdAt: 'desc' },
     });
   }
 

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, ParseIntPipe, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, ParseIntPipe, UseGuards, Request, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -10,7 +10,6 @@ export class ProductsController {
   @UseGuards(AuthGuard('jwt'))
   @Post()
   create(@Request() req, @Body() createProductDto: CreateProductDto) {
-    // Solo los artesanos (SELLER) o admins pueden crear productos
     if (req.user.role !== 'SELLER' && req.user.role !== 'ADMIN') {
       throw new Error('Solo los artesanos pueden subir productos');
     }
@@ -18,8 +17,13 @@ export class ProductsController {
   }
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(
+    @Query('search') search?: string,
+    @Query('category') category?: string,
+    @Query('minPrice') minPrice?: number,
+    @Query('maxPrice') maxPrice?: number,
+  ) {
+    return this.productsService.findAll({ search, category, minPrice, maxPrice });
   }
 
   @Get(':id')

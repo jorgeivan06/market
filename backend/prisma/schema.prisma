@@ -12,7 +12,7 @@ model User {
   email           String   @unique
   password        String
   name            String?
-  role            String   @default("BUYER") // BUYER, SELLER (Artesano), ADMIN
+  role            String   @default("BUYER")
   
   bio             String?  
   location        String?  
@@ -23,6 +23,7 @@ model User {
   updatedAt       DateTime @updatedAt
   products        Product[]
   orders          Order[]
+  reviews         Review[]
 }
 
 model Product {
@@ -43,6 +44,7 @@ model Product {
   user            User     @relation(fields: [userId], references: [id])
   images          ProductImage[]
   orderItems      OrderItem[]
+  reviews         Review[]
 }
 
 model ProductImage {
@@ -55,12 +57,12 @@ model ProductImage {
 model Order {
   id          Int         @id @default(autoincrement())
   total       Float
-  status      String      @default("PENDING") // PENDING, PAID, SHIPPED, DELIVERED
+  status      String      @default("PENDING")
   fullName    String
   address     String
   city        String
   phone       String
-  paymentId   String?     // ID de transacción simulada
+  paymentId   String?     
   
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -73,11 +75,24 @@ model Order {
 model OrderItem {
   id        Int     @id @default(autoincrement())
   quantity  Int
-  price     Float   // Precio al momento de compra
+  price     Float   
   
   orderId   Int
   order     Order   @relation(fields: [orderId], references: [id])
   
   productId Int
   product   Product @relation(fields: [productId], references: [id])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int      @default(5)
+  comment   String?
+  createdAt DateTime @default(now())
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
 }

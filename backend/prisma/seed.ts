@@ -4,7 +4,10 @@ import * as bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 async function main() {
-  // Limpiar base de datos
+  // Limpiar base de datos respetando las relaciones
+  await prisma.review.deleteMany({});
+  await prisma.orderItem.deleteMany({});
+  await prisma.order.deleteMany({});
   await prisma.productImage.deleteMany({});
   await prisma.product.deleteMany({});
   await prisma.user.deleteMany({});
@@ -38,8 +41,7 @@ async function main() {
       technique: 'Trenzado 21 vueltas',
       stock: 5,
       images: [
-        'https://www.shutterstock.com/image-photo/hat-sombrero-vueltiao-traditional-colombian-260nw-2254424789.jpg',
-        'https://images.unsplash.com/photo-1621252179027-94459d278660?q=80&w=1000'
+        'https://www.construmole.com/wp-content/uploads/2025/04/D_Q_NP_2X_815393-MCO83281354127_032025-E.webp'
       ]
     },
     {
@@ -52,7 +54,7 @@ async function main() {
       technique: 'Tejido en telar manual',
       stock: 12,
       images: [
-        'https://images.unsplash.com/photo-1590611380053-1fd423f322bb?q=80&w=1000'
+        'https://www.productosdecolombia.com/wp-content/uploads/2025/05/bolso-canaflecha-estilo-mochila-min.jpg'
       ]
     }
   ];
@@ -76,7 +78,7 @@ async function main() {
     }
   }
 
-  console.log('Marketplace poblado con éxito con datos culturales.');
+  console.log('Marketplace poblado con éxito con datos culturales y nuevas imágenes.');
 }
 
 main()
