@@ -56,6 +56,19 @@ async function main() {
       images: [
         'https://www.productosdecolombia.com/wp-content/uploads/2025/05/bolso-canaflecha-estilo-mochila-min.jpg'
       ]
+    },
+    {
+      name: 'Traje de Gala Zenú "Herencia Real"',
+      description: 'Colección exclusiva de trajes de gala que integran la tejeduría en caña flecha con alta costura.',
+      culturalHistory: 'Inspirado en los atuendos utilizados en los concursos nacionales de belleza, este traje simboliza el orgullo y la elegancia de la mujer Zenú.',
+      price: 1250000,
+      category: 'Moda',
+      material: 'Caña Flecha y Telas Finas',
+      technique: 'Alta Costura con Trenzado Manual',
+      stock: 2,
+      images: [
+        'https://pbs.twimg.com/media/ER57x_NX0AE_T5E?format=jpg&name=large'
+      ]
     }
   ];
 
@@ -78,7 +91,7 @@ async function main() {
     }
   }
 
-  console.log('Marketplace poblado con éxito con datos culturales y nuevas imágenes.');
+  console.log('Marketplace poblado con éxito con la nueva colección de Moda.');
 }
 
 main()
